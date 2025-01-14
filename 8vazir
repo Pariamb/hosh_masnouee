@@ -1,0 +1,41 @@
+N = 8  
+
+def print_solution(board):
+    """تابع برای چاپ صفحه شطرنج"""
+    for row in board:
+        print(" ".join("Q" if cell else "." for cell in row))
+    print("\n")
+
+def is_safe(board, row, col):
+    """بررسی امنیت خانه"""
+   
+    for i in range(row):
+        if board[i][col]:
+            return False
+   
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j]:
+            return False
+    ا
+    for i, j in zip(range(row, -1, -1), range(col, N)):
+        if board[i][j]:
+            return False
+    return True
+
+def solve(board, row):
+    """حل مسئله با بک‌ترکینگ"""
+    if row >= N:
+        print_solution(board)  
+        return True  
+    for col in range(N):
+        if is_safe(board, row, col):
+            board[row][col] = True
+            if solve(board, row + 1):
+                return True
+            board[row][col] = False
+    return False
+
+
+board = [[False] * N for _ in range(N)]
+if not solve(board, 0):
+    print("هیچ راه‌حلی پیدا نشد.")
